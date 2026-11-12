@@ -1,6 +1,6 @@
 # Pepillion
 
-A daily peptide trivia game. Each day gives 7 prompts ("Name a GLP-1–based drug", "Name a melanocortin peptide"…). Every correct answer adds amino-acid residues to your chain, and rarer answers add more. Some answers look right but aren't peptides (MK-677, creatine, testosterone). Those score nothing and explain why.
+A daily peptide trivia game where you dive into a volcano. Each day gives 7 prompts ("Name a GLP-1–based drug", "Name a peptide studied for longevity"…), picked from 20 categories. Every correct answer sinks you deeper, from the Crater Rim down to the Core Forge, and rarer answers sink you further (common +150 m up to deep cut +900 m). Some answers look right but aren't peptides (MK-677, creatine, testosterone). Those score nothing and explain why.
 
 - `index.html` is the whole game. Open it in a browser.
 - The prompt bank lives in the `PROMPTS` array at the top of the script. Each answer is `[tier, "Display name", ...aliases]`, with tier 1 (common) to 4 (deep cut). Each trap is `["Name", "Why it doesn't count", ...aliases]`.

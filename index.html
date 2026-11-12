@@ -1,91 +1,88 @@
 <title>Pepillion</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: one centered lab-notebook column on graph paper. The prompt card sits on top and the growing peptide chain sits below it. */
+/* Layout: volcano cross-section gauge on the left (a strip on top on phones), prompt card on the right. One committed dark look: basalt, ash, embers. */
 :root{
-  --paper:#eef3ef; --grid:rgba(21,35,58,.06); --card:#fbfdfc; --ink:#15233a; --ink-2:#4d5d72; --line:#c9d6cf;
-  --accent:#0f7a6b; --accent-ink:#ffffff; --bad:#c2413a;
-  --t0:#b9c3c0; --t1:#6b8fb8; --t2:#2f9e6e; --t3:#e0782f; --t4:#8a4fd1;
-  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --basalt:#120d0b; --rock:#1c1512; --ash:#33271f; --bone:#f3e7dc; --smoke:#b9a698;
+  --ember:#ff6a2b; --ember-ink:#1a0c05; --bad:#ff8a7a;
+  --t0:#4d3f37; --t1:#a9b6bd; --t2:#e8bd4f; --t3:#ff7a2f; --t4:#ff3d63;
+  --display:"Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
   --body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#0f1716; --grid:rgba(230,239,236,.045); --card:#16211f; --ink:#e6efec; --ink-2:#9fb2ad; --line:#2a3a37;
-  --accent:#4fd1b5; --accent-ink:#06201b; --bad:#f07a72;
-  --t0:#3c4a47; --t1:#7fa3cc; --t2:#49c48c; --t3:#f0954f; --t4:#b083f0; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --paper:#0f1716; --grid:rgba(230,239,236,.045); --card:#16211f; --ink:#e6efec; --ink-2:#9fb2ad; --line:#2a3a37;
-  --accent:#4fd1b5; --accent-ink:#06201b; --bad:#f07a72;
-  --t0:#3c4a47; --t1:#7fa3cc; --t2:#49c48c; --t3:#f0954f; --t4:#b083f0; color-scheme:dark}
-
 *{box-sizing:border-box}
 html,body{min-height:100%}
 body{
-  margin:0; background-color:var(--paper); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:24px 24px;
+  margin:0; background:var(--basalt); color:var(--bone); font-family:var(--body); font-size:16px; line-height:1.5;
+  background-image:radial-gradient(120% 60% at 50% 115%, rgba(255,90,30,.16), transparent 70%);
+  background-attachment:fixed;
   padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:20px 40px;
 }
-.wrap{max-width:680px; margin:0 auto; display:flex; flex-direction:column; gap:18px}
-header{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap}
-.logo{font-family:var(--display); font-weight:800; font-size:clamp(28px,6vw,38px); letter-spacing:-.02em; margin:0; line-height:1}
-.logo span{color:var(--accent)}
-.meta{font-family:var(--mono); font-size:13px; color:var(--ink-2); display:flex; gap:14px; flex-wrap:wrap}
-.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:14px}
-.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); display:flex; justify-content:space-between; gap:10px}
-h2{font-family:var(--display); font-weight:700; font-size:clamp(24px,5vw,32px); line-height:1.12; letter-spacing:-.015em; margin:0; text-wrap:balance}
-.hint{color:var(--ink-2); margin:0}
+.wrap{max-width:940px; margin:0 auto; display:flex; flex-direction:column; gap:18px}
+header{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.logo{font-family:var(--display); font-weight:900; font-size:clamp(40px,8vw,56px); letter-spacing:.01em; margin:0; line-height:.9; text-transform:uppercase}
+.logo span{color:var(--ember)}
+.meta{font-family:var(--mono); font-size:13px; color:var(--smoke); display:flex; gap:14px; flex-wrap:wrap}
+.main{display:grid; grid-template-columns:260px minmax(0,1fr); gap:18px; align-items:start}
+@media (max-width:760px){ .main{grid-template-columns:minmax(0,1fr)} }
+.gauge{background:var(--rock); border:1px solid var(--ash); border-radius:14px; overflow:hidden; position:sticky; top:calc(env(safe-area-inset-top, 0px) + 12px)}
+@media (max-width:760px){ .gauge{position:static} }
+.gauge canvas{display:block; width:100%; height:560px}
+@media (max-width:760px){ .gauge canvas{height:220px} }
+.readout{padding:12px 14px; border-top:1px solid var(--ash); display:flex; flex-direction:column; gap:2px}
+.depth{font-family:var(--display); font-weight:800; font-size:44px; line-height:1; font-variant-numeric:tabular-nums}
+.depth small{font-size:20px; color:var(--smoke); font-weight:700}
+.zone{font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ember)}
+.next{font-size:13px; color:var(--smoke)}
+.card{background:var(--rock); border:1px solid var(--ash); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:14px; min-width:0}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--smoke); display:flex; justify-content:space-between; gap:10px}
+h2{font-family:var(--display); font-weight:800; font-size:clamp(30px,5.4vw,42px); line-height:1.02; letter-spacing:.005em; margin:0; text-wrap:balance; text-transform:uppercase}
+.hint{color:var(--smoke); margin:0}
 p{margin:0}
 .lede{max-width:60ch}
-.rules{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:0; padding:0; list-style:none}
-.rules li{border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ink-2)}
-.rules b{display:block; color:var(--ink); font-weight:600; margin-bottom:2px}
+.rules{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:0; padding:0; list-style:none}
+.rules li{border:1px solid var(--ash); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--smoke)}
+.rules b{display:block; color:var(--bone); font-weight:600; margin-bottom:2px}
+.rules i{font-style:normal; font-family:var(--mono)}
 .row{display:flex; gap:10px; flex-wrap:wrap}
 input[type=text]{
-  flex:1 1 220px; min-width:0; font:500 18px var(--body); color:var(--ink); background:var(--paper);
-  border:1.5px solid var(--line); border-radius:10px; padding:12px 14px; outline:none;
+  flex:1 1 220px; min-width:0; font:500 18px var(--body); color:var(--bone); background:var(--basalt);
+  border:1.5px solid var(--ash); border-radius:10px; padding:12px 14px; outline:none;
 }
-input[type=text]:focus-visible{border-color:var(--accent)}
-button{font:600 15px var(--body); border-radius:10px; padding:12px 18px; cursor:pointer; border:1.5px solid var(--line); background:transparent; color:var(--ink)}
-button.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
-button:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
-button:disabled{opacity:.5; cursor:default}
-.timer{height:6px; border-radius:6px; background:var(--line); overflow:hidden}
-.timer i{display:block; height:100%; width:100%; background:var(--accent); transform-origin:left; transition:transform .1s linear}
-.timer.low i{background:var(--bad)}
-.fb{border-top:1px dashed var(--line); padding-top:14px; display:flex; flex-direction:column; gap:8px}
+input[type=text]::placeholder{color:var(--smoke); opacity:.7}
+input[type=text]:focus-visible{border-color:var(--ember)}
+button{font:600 15px var(--body); border-radius:10px; padding:12px 18px; cursor:pointer; border:1.5px solid var(--ash); background:transparent; color:var(--bone)}
+button:hover{border-color:var(--smoke)}
+button.primary{background:var(--ember); border-color:var(--ember); color:var(--ember-ink)}
+button:focus-visible{outline:3px solid var(--t2); outline-offset:2px}
+button:disabled{opacity:.45; cursor:default}
+.timer{height:6px; border-radius:6px; background:var(--ash); overflow:hidden}
+.timer i{display:block; height:100%; width:100%; background:linear-gradient(90deg,var(--t2),var(--ember)); transform-origin:left; transition:transform .1s linear}
+.timer.low i{background:var(--t4)}
+.fb{border-top:1px dashed var(--ash); padding-top:14px; display:flex; flex-direction:column; gap:8px; animation:rise .2s ease-out}
 .verdict{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.verdict strong{font-family:var(--display); font-size:22px}
+.verdict strong{font-family:var(--display); font-size:28px; font-weight:800; text-transform:uppercase; line-height:1}
 .gain{font-family:var(--mono); font-weight:700; font-size:18px}
-.chip{font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:99px; color:#fff; background:var(--t0)}
-.chip.c1{background:var(--t1)} .chip.c2{background:var(--t2)} .chip.c3{background:var(--t3)} .chip.c4{background:var(--t4)}
-.chip.c0{color:var(--ink)}
-.note{color:var(--ink-2); font-size:15px}
-.cuts{font-size:14px; color:var(--ink-2)}
+.chip{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:99px; color:var(--ember-ink); background:var(--t0)}
+.chip.c0{color:var(--bone)} .chip.c1{background:var(--t1)} .chip.c2{background:var(--t2)} .chip.c3{background:var(--t3)} .chip.c4{background:var(--t4); color:#fff}
+.note{color:var(--smoke); font-size:15px}
+.cuts{font-size:14px; color:var(--smoke)}
 .cuts b{color:var(--t4); font-weight:600}
-.chainbox{display:flex; flex-direction:column; gap:8px}
-.chainhead{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap}
-.count{font-family:var(--mono); font-weight:700; font-size:clamp(28px,7vw,40px); line-height:1; font-variant-numeric:tabular-nums}
-.count small{font-size:14px; font-weight:500; color:var(--ink-2)}
-.next{font-size:14px; color:var(--ink-2)}
-canvas{width:100%; display:block}
-.legend{display:flex; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--ink-2); font-family:var(--mono)}
-.legend span::before{content:""; display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; background:var(--c)}
 .recap{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
-.recap li{display:grid; grid-template-columns:1fr auto; gap:4px 12px; padding:10px 0; border-bottom:1px solid var(--line)}
+.recap li{display:grid; grid-template-columns:1fr auto; gap:4px 12px; padding:10px 0; border-bottom:1px solid var(--ash)}
 .recap li:last-child{border-bottom:0}
-.recap .q{font-size:13px; color:var(--ink-2); grid-column:1/-1}
+.recap .q{font-size:13px; color:var(--smoke); grid-column:1/-1}
 .recap .a{font-weight:600; min-width:0; overflow-wrap:anywhere}
 .recap .r{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right}
-.share{font-family:var(--mono); font-size:14px; white-space:pre-wrap; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px; margin:0; user-select:all}
-.source{font-size:13px; color:var(--ink-2)}
-footer{font-size:12px; color:var(--ink-2); text-align:center; max-width:60ch; margin:0 auto}
-@keyframes pop{from{transform:scale(.96); opacity:.6} to{transform:none; opacity:1}}
-.fb{animation:pop .18s ease-out}
+.recap s{color:var(--smoke)}
+.share{font-family:var(--mono); font-size:14px; white-space:pre-wrap; background:var(--basalt); border:1px solid var(--ash); border-radius:10px; padding:12px; margin:0; user-select:all}
+.source{font-size:13px; color:var(--smoke)}
+footer{font-size:12px; color:var(--smoke); text-align:center; max-width:60ch; margin:0 auto}
+@keyframes rise{from{transform:translateY(4px); opacity:.5} to{transform:none; opacity:1}}
 @media (prefers-reduced-motion: reduce){.fb{animation:none} .timer i{transition:none}}
 </style>
 
@@ -95,75 +92,141 @@ footer{font-size:12px; color:var(--ink-2); text-align:center; max-width:60ch; ma
     <div class="meta"><span id="dayLabel">Daily #1</span><span id="srcLabel">Answer key rarity</span></div>
   </header>
 
-  <section class="card" id="screen"></section>
-
-  <section class="card chainbox" aria-label="Your peptide chain">
-    <div class="chainhead">
-      <div class="count"><span id="resCount">0</span> <small>residues</small></div>
-      <div class="next" id="milestone">Next: GHK-Cu (3)</div>
-    </div>
-    <canvas id="chain" height="60" aria-hidden="true"></canvas>
-    <div class="legend">
-      <span style="--c:var(--t1)">Common</span><span style="--c:var(--t2)">Uncommon</span><span style="--c:var(--t3)">Rare</span><span style="--c:var(--t4)">Deep cut</span>
-    </div>
-  </section>
+  <div class="main">
+    <aside class="gauge" aria-label="Your descent">
+      <canvas id="volcano" aria-hidden="true"></canvas>
+      <div class="readout">
+        <div class="depth"><span id="depthNum">0</span><small> m</small></div>
+        <div class="zone" id="zoneName">Crater Rim · 60°C</div>
+        <div class="next" id="nextZone">Next: Ash Vent at 300 m</div>
+      </div>
+    </aside>
+    <section class="card" id="screen"></section>
+  </div>
 
   <footer>Pepillion is a trivia game for learning peptide science. Nothing here is medical advice or a recommendation to use any compound.</footer>
 </div>
 
 <script>
 // ---------- Prompt bank ----------
-// Answers: [tier, Display name, ...aliases]. Tier 1 common … 4 deep cut.
-// Traps: [Display, note, ...aliases]. They score nothing but teach something.
+// Answers: [tier, "Display name", ...aliases]. Tier 1 common … 4 deep cut.
+// Traps:   ["Display name", "Why it doesn't count", ...aliases]. They score 0 but teach something.
 const PROMPTS = [
- {id:"ghs", q:"Name a growth hormone secretagogue peptide", hint:"Peptides that signal the pituitary to release GH.",
-  a:[[1,"Ipamorelin"],[1,"CJC-1295","cjc","cjc1295dac","cjcdac"],[2,"Sermorelin"],[2,"Tesamorelin","egrifta"],[2,"GHRP-6"],[2,"GHRP-2","pralmorelin"],
-     [3,"Mod GRF 1-29","modgrf","modgrf129","cjcnodac","cjc1295nodac"],[3,"Hexarelin","examorelin"],[3,"GHRH","somatocrinin","growthhormonereleasinghormone"],[3,"Ghrelin"],[4,"Macimorelin","macrilen"],[4,"Alexamorelin"]],
+ {id:"ghs", q:"Name a growth hormone secretagogue", hint:"Peptides that signal the pituitary to release GH.",
+  a:[[1,"Ipamorelin","ipa"],[1,"CJC-1295","cjc","cjc1295dac","cjcdac","cjcwithdac"],[1,"Sermorelin","geref"],[2,"Tesamorelin","egrifta"],[2,"GHRP-6","ghrp6"],[2,"GHRP-2","ghrp2","pralmorelin"],
+     [2,"Mod GRF 1-29","modgrf","modgrf129","cjcnodac","cjc1295nodac"],[2,"Hexarelin","examorelin"],[3,"GHRP-1","ghrp1"],[3,"GHRH","somatocrinin","growthhormonereleasinghormone"],[3,"Ghrelin","lenomorelin"],
+     [4,"Macimorelin","macrilen"],[4,"Alexamorelin"],[4,"Dumorelin"],[4,"Rismorelin"]],
   t:[["MK-677","Ibutamoren is an oral GH secretagogue, but it's a small molecule, not a peptide.","mk677","ibutamoren"],
+     ["Anamorelin","Anamorelin is an oral ghrelin agonist, but it's a small molecule."],
+     ["Capromorelin","Capromorelin is a small-molecule ghrelin agonist, mostly used in vet medicine.","entyce"],
      ["HGH","That's growth hormone itself, a 191-residue protein. Secretagogues make your body release it.","growthhormone","somatropin","gh"]]},
- {id:"glp", q:"Name a GLP-1–based drug or research peptide", hint:"Incretin mimetics: single, dual or triple agonists.",
-  a:[[1,"Semaglutide","ozempic","wegovy","rybelsus","sema"],[1,"Tirzepatide","mounjaro","zepbound","tirz"],[2,"Liraglutide","victoza","saxenda"],[2,"Retatrutide","reta"],
-     [3,"Dulaglutide","trulicity"],[3,"Exenatide","byetta","bydureon","exendin4"],[3,"GLP-1","glp1","glucagonlikepeptide1"],
-     [4,"Lixisenatide","adlyxin","lyxumia"],[4,"Albiglutide","tanzeum"],[4,"Survodutide"],[4,"Mazdutide"],[4,"Cotadutide"],[4,"Efpeglenatide"]],
+ {id:"glp", q:"Name a GLP-1–based drug or research peptide", hint:"Incretin mimetics: single, dual and triple agonists.",
+  a:[[1,"Semaglutide","ozempic","wegovy","rybelsus","sema"],[1,"Tirzepatide","mounjaro","zepbound","tirz"],[1,"Retatrutide","reta"],[2,"Liraglutide","victoza","saxenda","lira"],
+     [2,"Dulaglutide","trulicity"],[2,"Exenatide","byetta","bydureon","exendin4"],[2,"Survodutide"],[3,"Mazdutide"],[3,"Cagrilintide + semaglutide","cagrisema"],[3,"Amycretin"],[3,"GLP-1","glp1","glucagonlikepeptide1"],
+     [3,"Maridebart cafraglutide","maritide","maridebart"],[3,"Lixisenatide","adlyxin","lyxumia"],[3,"Pemvidutide"],[4,"Albiglutide","tanzeum"],[4,"Cotadutide"],[4,"Efpeglenatide"],[4,"Ecnoglutide"],
+     [4,"Efinopegdutide"],[4,"Dapiglutide"],[4,"Taspoglutide"],[4,"Beinaglutide"],[4,"Pegapamodutide"],[4,"Oxyntomodulin"],[4,"Bamadutide"]],
   t:[["Orforglipron","Orforglipron is an oral GLP-1 agonist, but it's a small molecule, not a peptide."],
-     ["Cagrilintide","Cagrilintide is an amylin analog. Same neighborhood, different receptor."],
+     ["Danuglipron","Danuglipron is a small-molecule GLP-1 agonist."],
+     ["Cagrilintide","Cagrilintide alone is an amylin analog. Same neighborhood, different receptor.","cagri"],
      ["Metformin","Metformin is a small-molecule diabetes drug, not a GLP-1 peptide."]]},
+ {id:"fat", q:"Name a peptide studied for fat loss or metabolism", hint:"Appetite, fat oxidation and mitochondria.",
+  a:[[1,"Semaglutide","ozempic","wegovy"],[1,"Tirzepatide","mounjaro","zepbound"],[1,"Retatrutide","reta"],[1,"AOD-9604","aod","aod9604"],[2,"MOTS-c","motsc"],[2,"Tesamorelin","egrifta"],
+     [2,"HGH Fragment 176-191","hghfrag","frag176191","fragment176191","hghfragment"],[2,"Cagrilintide","cagri"],[2,"Liraglutide","saxenda"],[2,"Survodutide"],[3,"Adipotide","ftpp"],[3,"Mazdutide"],
+     [3,"Amylin"],[3,"Pramlintide","symlin"],[3,"Setmelanotide","imcivree"],[3,"Amycretin"],[3,"Pemvidutide"],[3,"Humanin"],[4,"SS-31","ss31","elamipretide"],[4,"Oxyntomodulin"],
+     [4,"Irisin"],[4,"Adiponectin"],[4,"Maridebart cafraglutide","maritide"],[4,"Petrelintide"],[4,"Eloralintide"]],
+  t:[["5-Amino-1MQ","5-Amino-1MQ is a small molecule (an NNMT inhibitor), not a peptide.","5amino1mq","5amino"],
+     ["SLU-PP-332","SLU-PP-332 is a small-molecule ERR agonist, not a peptide.","slupp332","slu"],
+     ["Tesofensine","Tesofensine is a small-molecule reuptake inhibitor."],["AICAR","AICAR is a nucleotide analog, not a peptide."],
+     ["L-carnitine","Carnitine is a small molecule made from lysine and methionine.","carnitine","lcarnitine"],
+     ["Orforglipron","Small molecule, not a peptide."],["Clenbuterol","Clenbuterol is a small-molecule beta-agonist.","clen"]]},
  {id:"aa", q:"Name one of the 20 standard amino acids", hint:"The building blocks every peptide is made from.",
   a:[[1,"Glycine","gly"],[1,"Leucine","leu"],[1,"Alanine","ala"],[1,"Glutamine","gln"],[1,"Arginine","arg"],[1,"Lysine","lys"],
      [2,"Valine","val"],[2,"Isoleucine","ile"],[2,"Glutamate","glutamicacid","glu"],[2,"Tyrosine","tyr"],[2,"Proline","pro"],[2,"Serine","ser"],[2,"Cysteine","cys"],[2,"Phenylalanine","phe"],
      [3,"Tryptophan","trp"],[3,"Methionine","met"],[3,"Threonine","thr"],[3,"Histidine","his"],[3,"Aspartate","asparticacid","asp"],[4,"Asparagine","asn"]],
   t:[["Taurine","Taurine is an amino sulfonic acid. Your body never builds it into proteins."],
      ["Creatine","Creatine is made from three amino acids, but isn't one itself."],
-     ["Citrulline","Citrulline is a real amino acid, but it isn't one of the 20 coded into proteins."],
+     ["Citrulline","Citrulline is a real amino acid, but not one of the 20 coded into proteins.","lcitrulline"],
      ["Ornithine","Ornithine is part of the urea cycle, not one of the 20 protein builders."],
      ["Beta-alanine","Beta-alanine isn't used to build proteins. Plain (alpha) alanine is.","betaalanine"],
+     ["Theanine","L-theanine is a tea amino acid that isn't built into proteins.","ltheanine"],
      ["Selenocysteine","The \"21st amino acid.\" Great deep cut, but outside the standard 20."],
      ["BCAA","That's three amino acids at once: leucine, isoleucine and valine. Pick one.","bcaas"]]},
  {id:"horm", q:"Name a peptide hormone your body makes", hint:"Any hormone built from a chain of amino acids.",
   a:[[1,"Insulin"],[1,"Oxytocin"],[1,"Glucagon"],[1,"Ghrelin"],[2,"Leptin"],[2,"Vasopressin","adh","antidiuretichormone"],[2,"GLP-1","glp1"],[2,"Growth hormone","hgh","gh","somatotropin"],
-     [2,"Somatostatin"],[2,"ACTH","corticotropin","adrenocorticotropichormone"],[2,"Prolactin"],[3,"Calcitonin"],[3,"PTH","parathyroidhormone"],[3,"Amylin"],[3,"Secretin"],
-     [3,"Cholecystokinin","cck"],[3,"Gastrin"],[3,"GnRH","lhrh","gonadotropinreleasinghormone"],[3,"TRH","thyrotropinreleasinghormone"],[3,"GHRH"],[3,"Kisspeptin"],[3,"Orexin","hypocretin"],
-     [3,"Peptide YY","pyy"],[3,"IGF-1","igf1"],[3,"Relaxin"],[4,"ANP","atrialnatriureticpeptide"],[4,"BNP"],[4,"Motilin"],[4,"Galanin"],[4,"Obestatin"],[4,"Nesfatin-1","nesfatin"],
-     [4,"Apelin"],[4,"Irisin"],[4,"Neuropeptide Y","npy"],[4,"Substance P","substancep"],[4,"CRH","corticotropinreleasinghormone"],[4,"Oxyntomodulin"],[4,"VIP"],[4,"Urocortin"]],
+     [2,"Somatostatin"],[2,"ACTH","corticotropin","adrenocorticotropichormone"],[2,"Prolactin"],[2,"IGF-1","igf1"],[2,"LH","luteinizinghormone"],[2,"FSH","folliclestimulatinghormone"],
+     [3,"Calcitonin"],[3,"PTH","parathyroidhormone"],[3,"Amylin"],[3,"Secretin"],[3,"Cholecystokinin","cck"],[3,"Gastrin"],[3,"GnRH","lhrh","gonadotropinreleasinghormone"],[3,"TRH","thyrotropinreleasinghormone"],
+     [3,"GHRH"],[3,"Kisspeptin"],[3,"Orexin","hypocretin"],[3,"Peptide YY","pyy"],[3,"Relaxin"],[3,"Endorphin","betaendorphin","endorphins"],[3,"GIP"],[3,"TSH","thyroidstimulatinghormone"],
+     [4,"ANP","atrialnatriureticpeptide"],[4,"BNP"],[4,"Motilin"],[4,"Galanin"],[4,"Obestatin"],[4,"Nesfatin-1","nesfatin"],[4,"Apelin"],[4,"Irisin"],[4,"Neuropeptide Y","npy"],
+     [4,"Substance P","substancep"],[4,"CRH","corticotropinreleasinghormone"],[4,"Oxyntomodulin"],[4,"VIP"],[4,"Urocortin"],[4,"Humanin"],[4,"MOTS-c","motsc"],[4,"Hepcidin"],[4,"Erythropoietin","epo"],[4,"Inhibin"],[4,"Angiotensin II","angiotensin"]],
   t:[["Testosterone","Testosterone is a steroid hormone, built from cholesterol rather than amino acids.","test"],
      ["Cortisol","Cortisol is a steroid hormone."],["Estrogen","Estrogens are steroid hormones.","estradiol"],
-     ["Adrenaline","Adrenaline is an amine hormone made from tyrosine.","epinephrine"],
+     ["Adrenaline","Adrenaline is an amine hormone made from tyrosine.","epinephrine"],["DHEA","DHEA is a steroid."],
      ["Thyroxine","T4 is made from tyrosine, but it's not a peptide.","t4"],["Melatonin","Melatonin is an amine made from tryptophan."],
      ["Dopamine","Dopamine is a monoamine, not a peptide."],["Serotonin","Serotonin is a monoamine, not a peptide."]]},
- {id:"heal", q:"Name a peptide studied for healing or tissue repair", hint:"Gut, tendon, skin and wound-healing research.",
+ {id:"heal", q:"Name a peptide studied for healing or tissue repair", hint:"Gut, tendon, ligament, skin and wound research.",
   a:[[1,"BPC-157","bpc","bpc157","bodyprotectioncompound"],[1,"TB-500","tb500","tb"],[2,"Thymosin beta-4","thymosinb4","tb4","thymosinbeta4","tβ4"],[2,"GHK-Cu","ghk","ghkcu","copperpeptide"],
-     [2,"Collagen peptides","collagen","collagenpeptide"],[3,"KPV"],[3,"LL-37","ll37"],[3,"Larazotide"],[3,"Matrixyl","palmitoylpentapeptide4"],
-     [4,"Pentadecapeptide arginate","pda"],[4,"Ac-SDKP","acsdkp","goralatide"],[4,"Thymulin"],[4,"Vosoritide"]],
-  t:[["HGH","Growth hormone does affect repair, but it's a 191-residue protein, not a repair peptide.","growthhormone"]]},
+     [2,"Collagen peptides","collagen","collagenpeptide"],[2,"KPV"],[3,"LL-37","ll37"],[3,"Larazotide"],[3,"ARA-290","ara290","cibinetide"],[3,"Matrixyl","palmitoylpentapeptide4"],
+     [3,"Pentadecapeptide arginate","pda","bpc157arginate"],[3,"MGF","mechanogrowthfactor"],[3,"IGF-1 LR3","igf1lr3","lr3"],[3,"Thymosin alpha-1","ta1","thymosinalpha1","thymalfasin"],
+     [4,"Ac-SDKP","acsdkp","goralatide"],[4,"Thymulin"],[4,"Teriparatide","forteo"],[4,"Abaloparatide","tymlos"],[4,"Teduglutide","gattex"],[4,"Aviptadil","vip"],[4,"Becaplermin","regranex"],[4,"Tβ4 fragment Ac-LKKTETQ","lkktetq","acetyltb4frag"],[4,"Glutathione"]],
+  t:[["Wolverine stack","That's a blend (usually BPC-157 + TB-500). Name one of the peptides in it.","wolverine"],
+     ["GLOW","GLOW is a blend (BPC-157, TB-500 and GHK-Cu). Name one of the peptides in it.","glowblend"],
+     ["KLOW","KLOW is a blend (BPC-157, TB-500, GHK-Cu and KPV). Name one of the peptides in it.","klowblend"],
+     ["HGH","Growth hormone affects repair, but it's a 191-residue protein, not a repair peptide.","growthhormone"],
+     ["PRP","Platelet-rich plasma is a blood product, not a peptide.","plateletrichplasma"]]},
+ {id:"long", q:"Name a peptide studied for longevity or healthy aging", hint:"Mitochondria, telomeres, senescence and the thymus.",
+  a:[[1,"Epitalon","epithalon","epithalamin"],[1,"MOTS-c","motsc"],[2,"GHK-Cu","ghk","ghkcu"],[2,"Humanin"],[2,"SS-31","ss31","elamipretide","bendavia"],[2,"Thymosin alpha-1","ta1","thymosinalpha1","thymalfasin"],
+     [2,"FOXO4-DRI","foxo4","foxo4dri"],[3,"Thymalin"],[3,"Pinealon"],[3,"Glutathione"],[3,"Carnosine"],[3,"Klotho"],[3,"Follistatin","follistatin344","fst344"],[3,"Vilon"],
+     [3,"Tesamorelin"],[3,"Cerebrolysin"],[4,"SHLP2","shlp"],[4,"Cardiogen"],[4,"Bronchogen"],[4,"Cortagen"],[4,"Livagen"],[4,"Thymogen"],[4,"Ovagen"],[4,"Prostamax"],[4,"Vesugen"],[4,"Chonluten"],[4,"Pancragen"]],
+  t:[["NAD+","NAD+ is a coenzyme, not a peptide.","nad","nadplus"],["NMN","NMN is a nucleotide, a precursor to NAD+.","nicotinamidemononucleotide"],
+     ["Rapamycin","Rapamycin is a macrolide, not a peptide.","sirolimus"],["Metformin","Metformin is a small-molecule drug."],
+     ["Resveratrol","Resveratrol is a plant polyphenol."],["Spermidine","Spermidine is a polyamine, not a peptide."]]},
+ {id:"muscle", q:"Name a peptide or protein tied to muscle growth", hint:"The IGF axis, myostatin and the muscle-building signals.",
+  a:[[1,"IGF-1","igf1"],[1,"IGF-1 LR3","igf1lr3","lr3"],[1,"Growth hormone","hgh","gh","somatropin"],[2,"MGF","mechanogrowthfactor"],[2,"PEG-MGF","pegmgf"],[2,"Follistatin","follistatin344","fst344","follistatin315"],
+     [2,"Insulin"],[2,"Des(1-3) IGF-1","des13igf1","desigf","des13"],[3,"Mecasermin","increlex"],[3,"IGF-2","igf2"],[3,"Myostatin"],[3,"ACE-031","ace031","ramatercept"],[3,"Irisin"],
+     [3,"Tesamorelin"],[4,"Apitegromab"],[4,"Bimagrumab"],[4,"Sotatercept"],[4,"Decorin"],[4,"Myostatin propeptide"]],
+  t:[["YK-11","YK-11 is a steroidal SARM, not a peptide.","yk11"],["Ostarine","Ostarine is a small-molecule SARM.","mk2866","enobosarm"],
+     ["RAD-140","RAD-140 is a small-molecule SARM.","rad140","testolone"],["Creatine","Creatine is a small molecule, not a peptide."],
+     ["Testosterone","Steroid, not a peptide.","test"],["HMB","HMB is a leucine metabolite, not a peptide."],["Trenbolone","Steroid, not a peptide.","tren"]]},
  {id:"mc", q:"Name a melanocortin peptide", hint:"Peptides that act on MC receptors: skin, libido, appetite.",
   a:[[1,"Melanotan II","mt2","mtii","melanotan2","melanotan"],[1,"Bremelanotide","pt141","vyleesi"],[2,"Melanotan I","mt1","mti","melanotan1"],[2,"Afamelanotide","scenesse"],
-     [2,"Alpha-MSH","alphamsh","amsh","msh","αmsh","melanocytestimulatinghormone"],[3,"Setmelanotide","imcivree"],[3,"ACTH","corticotropin"],
-     [4,"Beta-MSH","betamsh","βmsh"],[4,"Gamma-MSH","gammamsh","γmsh"],[4,"AgRP","agoutirelatedpeptide","agoutirelatedprotein"],[4,"KPV"]],
+     [2,"Alpha-MSH","alphamsh","amsh","msh","αmsh","melanocytestimulatinghormone"],[3,"Setmelanotide","imcivree"],[3,"ACTH","corticotropin"],[3,"KPV"],
+     [4,"Beta-MSH","betamsh","βmsh"],[4,"Gamma-MSH","gammamsh","γmsh"],[4,"AgRP","agoutirelatedpeptide","agoutirelatedprotein"],[4,"Cosyntropin","tetracosactide"],[4,"Modimelanotide"]],
   t:[["Dersimelagon","Dersimelagon is an oral melanocortin agonist, but it's a small molecule."]]},
+ {id:"skin", q:"Name a peptide used for skin, hair or tanning", hint:"Cosmetic chemistry and research peptides.",
+  a:[[1,"GHK-Cu","ghk","ghkcu","copperpeptide"],[1,"Melanotan II","mt2","melanotan2","melanotan"],[1,"Collagen peptides","collagen"],[2,"Argireline","acetylhexapeptide8","acetylhexapeptide3"],
+     [2,"Matrixyl","palmitoylpentapeptide4"],[2,"Melanotan I","mt1","melanotan1"],[2,"Afamelanotide","scenesse"],[2,"Thymosin beta-4","tb4","tb500"],[3,"SNAP-8","snap8"],[3,"Leuphasyl"],
+     [3,"Syn-Ake","synake"],[3,"KPV"],[3,"Palmitoyl tripeptide-1","palghk"],[3,"Matrixyl 3000"],[3,"Glutathione"],[4,"PTD-DBM","ptddbm"],[4,"Trifluoroacetyl tripeptide-2"],
+     [4,"Hexapeptide-11"],[4,"Copper tripeptide-1"],[4,"Biotinoyl tripeptide-1"],[4,"Palmitoyl tetrapeptide-7"],[4,"Acetyl tetrapeptide-3"]],
+  t:[["Retinol","Retinol is a vitamin A derivative, not a peptide.","tretinoin","retina"],["Hyaluronic acid","Hyaluronic acid is a sugar polymer."],
+     ["Niacinamide","Niacinamide is a form of vitamin B3."],["Minoxidil","Minoxidil is a small molecule."],["Finasteride","Finasteride is a small molecule."]]},
+ {id:"sex", q:"Name a peptide studied for libido or sexual health", hint:"Brain-to-body signals for desire and arousal.",
+  a:[[1,"Bremelanotide","pt141","vyleesi"],[1,"Kisspeptin","kisspeptin10","kp10"],[1,"Melanotan II","mt2","melanotan2","melanotan"],[2,"Oxytocin"],[2,"hCG","humanchorionicgonadotropin"],[2,"Gonadorelin"],
+     [3,"Alpha-MSH","alphamsh","msh"],[3,"GnRH"],[3,"Vasopressin"],[4,"Aviptadil","vip"],[4,"Prolactin"]],
+  t:[["Sildenafil","Sildenafil (Viagra) is a small molecule.","viagra"],["Tadalafil","Tadalafil (Cialis) is a small molecule.","cialis"],
+     ["Flibanserin","Flibanserin is a small molecule.","addyi"],["Clomiphene","Clomiphene is a small-molecule SERM.","clomid"]]},
+ {id:"hpg", q:"Name a peptide or analog that acts on the reproductive (HPG) axis", hint:"Signals between brain, pituitary and gonads.",
+  a:[[1,"Kisspeptin","kisspeptin10","kp10"],[1,"Gonadorelin"],[1,"GnRH","lhrh"],[1,"hCG","humanchorionicgonadotropin","pregnyl","novarel"],[2,"LH","luteinizinghormone"],[2,"FSH","folliclestimulatinghormone"],
+     [2,"Leuprolide","lupron"],[2,"Triptorelin","trelstar"],[3,"Goserelin","zoladex"],[3,"Nafarelin"],[3,"Histrelin"],[3,"Buserelin"],[3,"Degarelix"],[3,"Cetrorelix"],[3,"Ganirelix"],[3,"Prolactin"],
+     [3,"Inhibin"],[3,"hMG","menotropins"],[4,"Deslorelin"],[4,"Abarelix"],[4,"Fertirelin"],[4,"Activin"],[4,"AMH","antimullerianhormone"],[4,"GnIH","gonadotropininhibitoryhormone","rfrp3"],[4,"Follitropin","gonalf","follistim"]],
+  t:[["Clomiphene","Clomiphene is a small-molecule SERM, not a peptide.","clomid"],["Enclomiphene","Enclomiphene is a small-molecule SERM."],
+     ["Anastrozole","Anastrozole is a small-molecule aromatase inhibitor.","arimidex"],["Tamoxifen","Tamoxifen is a small-molecule SERM.","nolvadex"],
+     ["Testosterone","Testosterone is the steroid at the end of the axis, not a peptide."]]},
+ {id:"immune", q:"Name an immune-modulating peptide", hint:"The thymus, inflammation and host defense.",
+  a:[[1,"Thymosin alpha-1","ta1","thymosinalpha1","thymalfasin","zadaxin"],[1,"LL-37","ll37","cathelicidin"],[2,"KPV"],[2,"Thymulin"],[2,"Thymalin"],[2,"Defensin","defensins","betadefensin"],
+     [2,"BPC-157","bpc","bpc157"],[3,"ARA-290","ara290","cibinetide"],[3,"Thymopentin","tp5"],[3,"Thymogen"],[3,"VIP","aviptadil"],[3,"Glatiramer acetate","glatiramer","copaxone"],[3,"Cyclosporine","ciclosporin"],
+     [3,"Larazotide"],[4,"Splenopentin"],[4,"Dalargin"],[4,"Alpha-MSH","alphamsh"],[4,"Zilucoplan"],[4,"Pegcetacoplan"],[4,"Tuftsin"],[4,"Lactoferricin"]],
+  t:[["Ivermectin","Ivermectin is a macrocyclic lactone, not a peptide."],["Quercetin","Quercetin is a plant flavonoid."]]},
+ {id:"neuro", q:"Name a peptide studied for the brain, mood or sleep", hint:"Nootropic, anxiolytic and sleep-related peptides.",
+  a:[[1,"Semax"],[1,"Selank"],[2,"DSIP","deltasleepinducingpeptide"],[2,"Oxytocin"],[2,"Cerebrolysin"],[2,"Dihexa"],[2,"Orexin","hypocretin"],[2,"Endorphin","endorphins","betaendorphin"],
+     [3,"P21"],[3,"NA-Semax amidate","nasemax","nasemaxamidate","semaxamidate"],[3,"NA-Selank amidate","naselank","naselankamidate"],[3,"PE-22-28","pe2228"],[3,"Vasopressin"],[3,"Neuropeptide Y","npy"],
+     [3,"Galanin"],[3,"Pinealon"],[3,"Cortexin"],[3,"Epitalon","epithalon"],[3,"Substance P","substancep"],[3,"Enkephalin","enkephalins"],[3,"Noopept"],
+     [4,"VIP"],[4,"PACAP"],[4,"Davunetide","nap"],[4,"CRH"],[4,"Dynorphin"],[4,"Nociceptin"],[4,"Spadin"],[4,"Adamax"],[4,"Cortagen"]],
+  t:[["Phenibut","Phenibut is a GABA analog, not a peptide."],["Modafinil","Modafinil is a small molecule."],["Melatonin","Melatonin is an amine, not a peptide."],
+     ["Lion's mane","Lion's mane is a mushroom extract.","lionsmane"],["Bromantane","Bromantane is a small molecule."],["9-Me-BC","9-Me-BC is a small molecule.","9mebc"]]},
  {id:"venom", q:"Name a peptide or peptide drug discovered in an animal", hint:"Venoms, saliva and skin secretions are peptide goldmines.",
   a:[[1,"Exenatide","exendin4","byetta","exendin"],[2,"Ziconotide","prialt"],[2,"Melittin"],[2,"Hirudin"],[2,"Salmon calcitonin","calcitonin","miacalcin"],
-     [3,"Bivalirudin","angiomax"],[3,"Eptifibatide","integrilin"],[3,"Conotoxin","conotoxins"],[3,"Chlorotoxin"],[3,"Apamin"],[3,"Magainin"],[3,"Dermorphin"],
-     [4,"Deltorphin"],[4,"Bombesin"],[4,"Caerulein"],[4,"Crotamine"],[4,"Mastoparan"],[4,"Bradykinin-potentiating peptide","bpp","bradykininpotentiatingpeptide"]],
+     [3,"Bivalirudin","angiomax"],[3,"Eptifibatide","integrilin"],[3,"Conotoxin","conotoxins"],[3,"Chlorotoxin"],[3,"Apamin"],[3,"Magainin"],[3,"Dermorphin"],[3,"Syn-Ake","synake"],
+     [4,"Deltorphin"],[4,"Bombesin"],[4,"Caerulein"],[4,"Crotamine"],[4,"Mastoparan"],[4,"Bradykinin-potentiating peptide","bpp"],[4,"Lixisenatide"],[4,"Dalazatide"],[4,"Tozuleristide"]],
   t:[["Captopril","Captopril was modeled on a Brazilian viper peptide, but the drug itself is a small molecule."],
      ["Epibatidine","Epibatidine from frog skin is an alkaloid, not a peptide."],
      ["Tetrodotoxin","Tetrodotoxin from pufferfish is a small molecule, not a peptide.","ttx"]]},
@@ -171,58 +234,60 @@ const PROMPTS = [
   a:[[1,"Peptide bond"],[1,"Amino acid","aminoacids"],[1,"N-terminus","nterminus","aminoterminus","nterm"],[1,"C-terminus","cterminus","carboxyterminus","cterm"],
      [2,"Residue","residues"],[2,"Amide bond"],[2,"Disulfide bond","disulfidebridge","disulfide","disulphidebond"],[2,"Dipeptide"],[2,"Tripeptide"],[2,"Polypeptide"],[2,"Oligopeptide"],
      [2,"Half-life","halflife"],[2,"Reconstitution","reconstitute"],[2,"Lyophilization","lyophilized","freezedrying","lyophilisation"],[2,"Alpha helix","alphahelix","helix"],[2,"Beta sheet","betasheet","betapleatedsheet"],
-     [3,"Amidation"],[3,"Acetylation"],[3,"Cyclization","cyclicpeptide","cyclisation"],[3,"PEGylation","pegylation"],[3,"Solid-phase synthesis","spps","solidphasepeptidesynthesis","solidphasesynthesis"],
-     [3,"HPLC"],[3,"Mass spectrometry","massspec","massspectrometry"],[3,"Isoelectric point","pi"],[3,"Zwitterion"],[3,"D-amino acid","daminoacid","daminoacids"],[3,"Hydrolysis"],[3,"Proteolysis"],[3,"Protease"],
-     [3,"Chirality","chiral"],[3,"Bacteriostatic water","bacwater","bacteriostaticwater"],[3,"Primary structure"],[3,"Tertiary structure"],
+     [2,"Bacteriostatic water","bacwater","bacteriostaticwater"],[2,"Purity"],[3,"Amidation"],[3,"Acetylation"],[3,"Cyclization","cyclicpeptide","cyclisation"],[3,"PEGylation"],
+     [3,"Solid-phase synthesis","spps","solidphasepeptidesynthesis","solidphasesynthesis"],[3,"HPLC"],[3,"Mass spectrometry","massspec","massspectrometry"],[3,"Isoelectric point","pi"],[3,"Zwitterion"],
+     [3,"D-amino acid","daminoacid","daminoacids"],[3,"Hydrolysis"],[3,"Proteolysis"],[3,"Protease"],[3,"Chirality","chiral"],[3,"Primary structure"],[3,"Tertiary structure"],[3,"Certificate of analysis","coa"],
+     [3,"Acetate salt","acetate"],[3,"TFA salt","tfa","trifluoroaceticacid"],[3,"Endotoxin","endotoxins"],
      [4,"Fmoc"],[4,"Boc"],[4,"Ramachandran plot","ramachandran"],[4,"Beta turn","betaturn"],[4,"Peptidomimetic"],[4,"Stapled peptide","stapling"],[4,"Lipidation"],[4,"Retro-inverso","retroinverso"],
-     [4,"Racemization","racemisation"],[4,"Edman degradation","edman"],[4,"Pyroglutamate","pyroglutamicacid","pglu"],[4,"Merrifield synthesis","merrifield"],[4,"Native chemical ligation","ncl"]],
+     [4,"Racemization","racemisation"],[4,"Edman degradation","edman"],[4,"Pyroglutamate","pyroglutamicacid","pglu"],[4,"Merrifield synthesis","merrifield"],[4,"Native chemical ligation","ncl"],[4,"Aggregation"],[4,"Deamidation"]],
   t:[]},
  {id:"fda", q:"Name an FDA-approved peptide drug", hint:"From hospital staples to blockbusters.",
-  a:[[1,"Insulin"],[1,"Semaglutide","ozempic","wegovy"],[1,"Tirzepatide","mounjaro","zepbound"],[2,"Liraglutide","victoza","saxenda"],[2,"Oxytocin","pitocin"],[2,"Glucagon"],
-     [2,"Leuprolide","lupron","leuprorelin"],[2,"Octreotide","sandostatin"],[2,"Teriparatide","forteo"],[2,"Vasopressin"],[2,"Desmopressin","ddavp"],[2,"Tesamorelin","egrifta"],
-     [2,"Bremelanotide","pt141","vyleesi"],[2,"Exenatide","byetta"],[2,"Dulaglutide","trulicity"],[2,"Cyclosporine","ciclosporin"],[2,"Vancomycin"],
-     [3,"Abaloparatide","tymlos"],[3,"Setmelanotide","imcivree"],[3,"Lanreotide"],[3,"Pramlintide","symlin"],[3,"Calcitonin"],[3,"Goserelin","zoladex"],[3,"Degarelix"],
-     [3,"Linaclotide","linzess"],[3,"Plecanatide"],[3,"Enfuvirtide","fuzeon"],[3,"Daptomycin"],[3,"Bivalirudin"],[3,"Eptifibatide"],[3,"Ziconotide"],[3,"Cosyntropin"],[3,"Triptorelin"],
-     [4,"Icatibant"],[4,"Nesiritide"],[4,"Difelikefalin"],[4,"Vosoritide"],[4,"Zilucoplan"],[4,"Pegcetacoplan"],[4,"Dasiglucagon"],[4,"Carfilzomib"],[4,"Lixisenatide"],
-     [4,"Afamelanotide"],[4,"Macimorelin"],[4,"Romiplostim"],[4,"Etelcalcetide"],[4,"Teduglutide"],[4,"Lutetium dotatate","lutathera"],[4,"Cetrorelix"],[4,"Ganirelix"]],
+  a:[[1,"Insulin","glargine","lispro","aspart","degludec","detemir","lantus","humalog","novolog","tresiba"],[1,"Semaglutide","ozempic","wegovy","rybelsus"],[1,"Tirzepatide","mounjaro","zepbound"],
+     [2,"Liraglutide","victoza","saxenda"],[2,"Oxytocin","pitocin"],[2,"Glucagon"],[2,"Leuprolide","lupron","leuprorelin"],[2,"Octreotide","sandostatin"],[2,"Teriparatide","forteo"],
+     [2,"Vasopressin"],[2,"Desmopressin","ddavp"],[2,"Tesamorelin","egrifta"],[2,"Bremelanotide","pt141","vyleesi"],[2,"Exenatide","byetta"],[2,"Dulaglutide","trulicity"],
+     [2,"Cyclosporine","ciclosporin"],[2,"Vancomycin"],[2,"Sermorelin","geref"],[3,"Abaloparatide","tymlos"],[3,"Setmelanotide","imcivree"],[3,"Lanreotide"],[3,"Pramlintide","symlin"],
+     [3,"Calcitonin"],[3,"Goserelin","zoladex"],[3,"Degarelix"],[3,"Linaclotide","linzess"],[3,"Plecanatide"],[3,"Enfuvirtide","fuzeon"],[3,"Daptomycin"],[3,"Bivalirudin"],[3,"Eptifibatide"],
+     [3,"Ziconotide"],[3,"Cosyntropin"],[3,"Triptorelin"],[3,"Glatiramer acetate","glatiramer","copaxone"],[3,"Bacitracin"],[3,"Polymyxin B","polymyxin"],[3,"Colistin"],[3,"Lixisenatide"],[3,"Mecasermin","increlex"],
+     [4,"Icatibant"],[4,"Nesiritide"],[4,"Difelikefalin"],[4,"Vosoritide"],[4,"Zilucoplan"],[4,"Pegcetacoplan"],[4,"Dasiglucagon"],[4,"Carfilzomib"],[4,"Afamelanotide"],[4,"Macimorelin"],
+     [4,"Romiplostim"],[4,"Etelcalcetide"],[4,"Teduglutide"],[4,"Lutetium dotatate","lutathera"],[4,"Cetrorelix"],[4,"Ganirelix"],[4,"Pasireotide"],[4,"Terlipressin"],[4,"Angiotensin II","giapreza"],
+     [4,"Motixafortide"],[4,"Caspofungin"],[4,"Micafungin"],[4,"Anidulafungin"],[4,"Oritavancin"],[4,"Dalbavancin"],[4,"Telavancin"],[4,"Histrelin"],[4,"Nafarelin"],[4,"Sincalide"],[4,"Secretin"]],
   t:[["BPC-157","BPC-157 has never been FDA approved. It's a research peptide.","bpc","bpc157"],
      ["TB-500","TB-500 is not FDA approved.","tb500"],["Ipamorelin","Ipamorelin was studied in trials but never approved."],
-     ["Retatrutide","Retatrutide is still in clinical trials.","reta"]]},
- {id:"hpg", q:"Name a peptide or analog that acts on the reproductive (HPG) axis", hint:"Signals between brain, pituitary and gonads.",
-  a:[[1,"Kisspeptin","kisspeptin10","kp10"],[1,"Gonadorelin"],[1,"GnRH","lhrh"],[1,"hCG","humanchorionicgonadotropin"],[2,"LH","luteinizinghormone"],[2,"FSH","folliclestimulatinghormone"],
-     [2,"Leuprolide","lupron"],[2,"Triptorelin"],[3,"Goserelin"],[3,"Nafarelin"],[3,"Histrelin"],[3,"Buserelin"],[3,"Degarelix"],[3,"Cetrorelix"],[3,"Ganirelix"],[3,"Prolactin"],[3,"Inhibin"],
-     [4,"Deslorelin"],[4,"Abarelix"],[4,"Fertirelin"],[4,"Activin"],[4,"AMH","antimullerianhormone"],[4,"Gonadotropin-inhibitory hormone","gnih","rfrp3"]],
-  t:[["Clomiphene","Clomiphene is a small-molecule SERM, not a peptide.","clomid"],["Enclomiphene","Enclomiphene is a small-molecule SERM."],
-     ["Anastrozole","Anastrozole is a small-molecule aromatase inhibitor.","arimidex"],["Testosterone","Testosterone is the steroid at the end of the axis, not a peptide."]]},
+     ["Thymosin alpha-1","Thymalfasin is approved in many countries, but not by the FDA.","ta1","thymalfasin","zadaxin"],
+     ["Retatrutide","Retatrutide is still in clinical trials.","reta"],["CJC-1295","CJC-1295 was never FDA approved.","cjc"]]},
  {id:"amp", q:"Name an antimicrobial peptide", hint:"Nature's (and medicine's) peptide antibiotics.",
   a:[[1,"LL-37","ll37","cathelicidin"],[1,"Defensin","defensins","betadefensin","alphadefensin"],[2,"Vancomycin"],[2,"Nisin"],[2,"Bacitracin"],[2,"Polymyxin B","polymyxin"],[2,"Colistin","polymyxine"],
      [2,"Melittin"],[2,"Magainin"],[2,"Daptomycin"],[2,"Gramicidin"],[3,"Cecropin"],[3,"Dermcidin"],[3,"Histatin"],[3,"Lactoferricin"],[3,"Indolicidin"],[3,"Tyrocidine"],[3,"Teixobactin"],
-     [3,"Protegrin"],[3,"Buforin"],[3,"Hepcidin"],[4,"Oritavancin"],[4,"Dalbavancin"],[4,"Telavancin"],[4,"Pexiganan"],[4,"Omiganan"],[4,"Bacteriocin"],[4,"Lantibiotic"],[4,"Plectasin"],[4,"Surfactin"]],
+     [3,"Protegrin"],[3,"Buforin"],[3,"Hepcidin"],[4,"Oritavancin"],[4,"Dalbavancin"],[4,"Telavancin"],[4,"Pexiganan"],[4,"Omiganan"],[4,"Bacteriocin"],[4,"Lantibiotic"],[4,"Plectasin"],[4,"Surfactin"],[4,"Murepavadin"]],
   t:[["Penicillin","Penicillin's core is built from amino acids, but it's a β-lactam, not classed as a peptide."],["Amoxicillin","Amoxicillin is a β-lactam antibiotic."]]},
- {id:"neuro", q:"Name a peptide studied for the brain, mood or sleep", hint:"Nootropic, anxiolytic and sleep-related peptides.",
-  a:[[1,"Semax"],[1,"Selank"],[2,"DSIP","deltasleepinducingpeptide"],[2,"Oxytocin"],[2,"Cerebrolysin"],[2,"Dihexa"],[2,"Orexin","hypocretin"],[2,"Endorphin","endorphins","betaendorphin"],
-     [3,"P21"],[3,"NA-Semax","nasemax","nasemaxamidate"],[3,"Vasopressin"],[3,"Neuropeptide Y","npy"],[3,"Galanin"],[3,"Pinealon"],[3,"Cortexin"],[3,"Epitalon","epithalon"],[3,"Substance P","substancep"],
-     [3,"Enkephalin","enkephalins"],[3,"Noopept"],[4,"VIP"],[4,"PACAP"],[4,"Davunetide","nap"],[4,"CRH"],[4,"Dynorphin"],[4,"Nociceptin"]],
-  t:[["Phenibut","Phenibut is a GABA analog, not a peptide."],["Modafinil","Modafinil is a small molecule."],["Melatonin","Melatonin is an amine, not a peptide."]]},
  {id:"small", q:"Name a dipeptide or tripeptide", hint:"Two or three amino acids. A couple are in your supplements.",
   a:[[1,"Glutathione"],[1,"Carnosine"],[2,"GHK","ghkcu"],[2,"Aspartame"],[2,"Anserine"],[2,"KPV"],[2,"TRH"],[2,"Alanyl-glutamine","alanylglutamine","sustamine"],
-     [3,"Glycylglycine","glygly"],[3,"Balenine"],[3,"Ophthalmic acid"],[3,"Prolyl-hydroxyproline","prohyp","prolylhydroxyproline"],[3,"Noopept"],
-     [4,"Homocarnosine"],[4,"Kyotorphin"],[4,"Vilon"],[4,"Cyclo(His-Pro)","cyclohispro"],[4,"Bortezomib"],[4,"Thyrotropin-releasing hormone","thyrotropinreleasinghormone"]],
+     [3,"Glycylglycine","glygly"],[3,"Balenine"],[3,"Ophthalmic acid"],[3,"Prolyl-hydroxyproline","prohyp","prolylhydroxyproline"],[3,"Noopept"],[3,"Vilon"],[3,"Pinealon"],
+     [4,"Homocarnosine"],[4,"Kyotorphin"],[4,"Cyclo(His-Pro)","cyclohispro"],[4,"Bortezomib"],[4,"Thymogen"],[4,"Glycyl-glutamine","glycylglutamine"]],
   t:[["Glutamine","Glutamine is a single amino acid."],["BCAA","BCAAs are three separate amino acids, not bonded together.","bcaas"],["Creatine","Creatine is a small molecule made from amino acids."]]},
  {id:"hunger", q:"Name a hormone or peptide that controls hunger", hint:"Gut-brain signals for hunger and fullness.",
   a:[[1,"Ghrelin"],[1,"Leptin"],[1,"GLP-1","glp1"],[2,"Insulin"],[2,"Peptide YY","pyy"],[2,"Cholecystokinin","cck"],[2,"Amylin"],[2,"Neuropeptide Y","npy"],[2,"Orexin","hypocretin"],
      [2,"Alpha-MSH","alphamsh","msh"],[2,"Glucagon"],[3,"AgRP","agoutirelatedpeptide"],[3,"Oxyntomodulin"],[3,"GIP"],[3,"CART"],[3,"MCH","melaninconcentratinghormone"],[3,"Obestatin"],[3,"Galanin"],
      [3,"Nesfatin-1","nesfatin"],[4,"Pancreatic polypeptide","pp"],[4,"Enterostatin"],[4,"Uroguanylin"],[4,"GDF15","gdf15"]],
   t:[["Serotonin","Serotonin shapes appetite, but it's a monoamine."],["Dopamine","Dopamine is a monoamine."],["Cortisol","Cortisol affects appetite, but it's a steroid."]]},
- {id:"muscle", q:"Name a protein found in muscle or connective tissue", hint:"The long chains that peptides grow up into.",
+ {id:"protein", q:"Name a protein found in muscle or connective tissue", hint:"The long chains that peptides grow up into.",
   a:[[1,"Actin"],[1,"Myosin"],[1,"Collagen"],[2,"Titin"],[2,"Elastin"],[2,"Troponin"],[2,"Tropomyosin"],[2,"Myoglobin"],[2,"Dystrophin"],[2,"Fibronectin"],
      [3,"Nebulin"],[3,"Desmin"],[3,"Fibrillin"],[3,"Decorin"],[3,"Laminin"],[3,"Obscurin"],[3,"Myostatin"],[3,"Follistatin"],
      [4,"Tenascin"],[4,"Aggrecan"],[4,"Myomesin"],[4,"Alpha-actinin","alphaactinin","actinin"],[4,"Dysferlin"],[4,"Calsequestrin"],[4,"Lumican"],[4,"Tenomodulin"],[4,"Cofilin"]],
   t:[["Creatine","Creatine is a small-molecule fuel, not a protein."],["Glycogen","Glycogen is a sugar polymer, not a protein."]]},
 ];
 
-const TIERS = {0:{name:"Miss",res:0,emoji:"⬛"},1:{name:"Common",res:12,emoji:"🟦"},2:{name:"Uncommon",res:30,emoji:"🟩"},3:{name:"Rare",res:55,emoji:"🟧"},4:{name:"Deep cut",res:85,emoji:"🟪"}};
-const MILESTONES = [[3,"GHK-Cu"],[9,"Oxytocin"],[15,"BPC-157"],[29,"Glucagon"],[31,"Semaglutide"],[43,"Thymosin β4"],[51,"Insulin"],[70,"IGF-1"],[146,"Leptin"],[191,"growth hormone"],[375,"Actin"],[585,"serum albumin"]];
+const TIERS = {0:{name:"Miss",m:0,emoji:"⬛"},1:{name:"Common",m:150,emoji:"⬜"},2:{name:"Uncommon",m:350,emoji:"🟨"},3:{name:"Rare",m:600,emoji:"🟧"},4:{name:"Deep cut",m:900,emoji:"🟥"}};
+// Game zones of the volcano (flavor, not geology).
+const ZONES = [
+  {d:0,    name:"Crater Rim",     temp:"60°C",    col:"#2a201b"},
+  {d:300,  name:"Ash Vent",       temp:"300°C",   col:"#33231b"},
+  {d:900,  name:"Lava Tube",      temp:"700°C",   col:"#4a2416"},
+  {d:1800, name:"Obsidian Shaft", temp:"900°C",   col:"#5e2412"},
+  {d:3000, name:"Magma Chamber",  temp:"1,100°C", col:"#7a2410"},
+  {d:4500, name:"Mantle Plume",   temp:"1,300°C", col:"#97300f"},
+  {d:6000, name:"Core Forge", temp:"1,500°C", col:"#b8460f"},
+];
 const ROUNDS = 7, SECONDS = 20, LIVE_MIN = 8;
 const EPOCH = Date.UTC(2026,10,12);
 
@@ -230,22 +295,23 @@ const EPOCH = Date.UTC(2026,10,12);
 const $ = s => document.querySelector(s);
 const norm = s => String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9αβγ]/g,"");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => Math.round(n).toLocaleString("en-US");
 function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=[...Array(b.length+1).keys()];
   for(let i=1;i<=a.length;i++){ let p=d[0]; d[0]=i; for(let j=1;j<=b.length;j++){ const t=d[j]; d[j]=Math.min(d[j]+1,d[j-1]+1,p+(a[i-1]===b[j-1]?0:1)); p=t; } } return d[b.length]; }
 function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function pick(seed){ const r=rng(seed), idx=PROMPTS.map((_,i)=>i); for(let i=idx.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; } return idx.slice(0,ROUNDS).map(i=>PROMPTS[i]); }
 const store = { get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} } };
+const zoneAt = d => [...ZONES].reverse().find(z => z.d <= d);
 
 const now = new Date();
 const dayKey = now.toISOString().slice(0,10);
 const dayNum = Math.max(1, Math.floor((Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate())-EPOCH)/864e5)+1);
 $("#dayLabel").textContent = "Daily #" + dayNum;
 
-// Build lookup indexes per prompt
 for (const p of PROMPTS){
   p.idx = new Map();
-  for (const [tier,name,...al] of p.a) for (const k of [name,...al]) { const n=norm(k); if(!p.idx.has(n)) p.idx.set(n,{kind:"ok",tier,name}); }
-  for (const [name,note,...al] of p.t) for (const k of [name,...al]) { const n=norm(k); if(!p.idx.has(n)) p.idx.set(n,{kind:"trap",name,note}); }
+  for (const [tier,name,...al] of p.a) for (const k of [name,...al]) { const n=norm(k); if(n && !p.idx.has(n)) p.idx.set(n,{kind:"ok",tier,name}); }
+  for (const [name,note,...al] of p.t) for (const k of [name,...al]) { const n=norm(k); if(n && !p.idx.has(n)) p.idx.set(n,{kind:"trap",name,note}); }
 }
 function match(p, input){
   const n = norm(input); if (!n) return null;
@@ -257,21 +323,21 @@ function match(p, input){
 }
 
 // ---------- Live community rarity (optional) ----------
-const live = { on:false, uid:null, db:null, plays:new Map() }; // docId -> answers
+const live = { on:false, uid:null, db:null, plays:new Map() };
 function liveStats(qid){
   let total=0; const counts=new Map();
   for (const [id,ans] of live.plays){ if (live.uid && id===dayKey+"_"+live.uid) continue; const a=ans&&ans[qid]; if(a===undefined) continue; total++; if(a) counts.set(a,(counts.get(a)||0)+1); }
   return {total, counts};
 }
 function score(p, hit){
-  if (!hit || hit.kind!=="ok") return {res:0, tier:0, share:null};
+  if (!hit || hit.kind!=="ok") return {m:0, tier:0, share:null};
   const s = live.on ? liveStats(p.id) : {total:0};
   if (s.total >= LIVE_MIN){
     const share = (s.counts.get(hit.name)||0) / (s.total+1);
-    const res = Math.max(8, Math.min(100, Math.round(8 + 92*Math.pow(1-share, 2))));
-    return {res, tier: res<20?1:res<45?2:res<70?3:4, share};
+    const m = Math.max(100, Math.min(1000, Math.round((100 + 900*Math.pow(1-share, 2))/10)*10));
+    return {m, tier: m<250?1:m<500?2:m<750?3:4, share};
   }
-  return {res:TIERS[hit.tier].res, tier:hit.tier, share:null};
+  return {m:TIERS[hit.tier].m, tier:hit.tier, share:null};
 }
 async function initLive(){
   try{
@@ -282,79 +348,108 @@ async function initLive(){
     db.collection("plays").where("day","==",dayKey).onSnapshot(snap => {
       live.plays = new Map(snap.docs.map(d => [d.id, (d.data()||{}).answers||{}]));
       live.on = true;
-      const players = live.plays.size;
-      $("#srcLabel").textContent = players ? players + (players===1?" player today":" players today") : "Be first today";
+      const n = live.plays.size;
+      $("#srcLabel").textContent = n ? n + (n===1?" diver today":" divers today") : "Be first down today";
     }, () => { live.on=false; });
-  }catch(e){ /* fall back to the built-in answer key */ }
+  }catch(e){}
 }
 async function saveLive(answers){
   if (!live.db || !live.uid) return;
   try{ await live.db.collection("plays").doc(dayKey+"_"+live.uid).set({day:dayKey, answers}); }catch(e){}
 }
 
-// ---------- Chain canvas ----------
-const cv = $("#chain"), cx = cv.getContext("2d");
+// ---------- Volcano cross-section ----------
+const cv = $("#volcano"), cx = cv.getContext("2d");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-let beads = [], shown = 0, raf = 0;
-function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
-function drawChain(){
-  const w = cv.clientWidth || 600, dpr = devicePixelRatio || 1;
-  const d = w < 480 ? 9 : 11, cols = Math.max(8, Math.floor((w-4)/d));
-  const rows = Math.max(1, Math.ceil(Math.max(beads.length,1)/cols));
-  const h = rows*d + 6;
-  cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr); cv.style.height = h+"px";
+let depth = 0, shownDepth = 0, marks = [], t0 = performance.now();
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function draw(){
+  const w = cv.clientWidth || 260, h = cv.clientHeight || 560, dpr = devicePixelRatio || 1;
+  if (cv.width !== Math.round(w*dpr) || cv.height !== Math.round(h*dpr)){ cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr); }
   cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,w,h);
-  const pos = i => { const r=Math.floor(i/cols), c=i%cols, col = r%2 ? cols-1-c : c; return [2+d/2+col*d, 3+d/2+r*d]; };
-  const n = Math.floor(shown);
-  if (n===0){ cx.fillStyle = cssVar("--ink-2"); cx.font = "13px " + cssVar("--mono"); cx.fillText("Your chain grows as you answer.", 2, 3+d/2+4); return; }
-  cx.strokeStyle = cssVar("--line"); cx.lineWidth = 2; cx.beginPath();
-  for (let i=0;i<n;i++){ const [x,y]=pos(i); i?cx.lineTo(x,y):cx.moveTo(x,y); } cx.stroke();
-  const cols4 = [0,1,2,3,4].map(t => cssVar("--t"+t));
-  for (let i=0;i<n;i++){ const [x,y]=pos(i); cx.fillStyle = cols4[beads[i]]; cx.beginPath(); cx.arc(x,y,d*0.38,0,Math.PI*2); cx.fill(); }
+  const sky = Math.min(70, h*0.2), bottom = h - 8;
+  const span = Math.max(2000, Math.ceil((shownDepth + 700)/1000)*1000);
+  const y = d => sky + (d/span)*(bottom - sky);
+  const mono = css("--mono");
+  const cxm = w/2, wob = yy => Math.sin(yy/38)*6;
+
+  const g = cx.createLinearGradient(0,0,0,sky); g.addColorStop(0,"#120d0b"); g.addColorStop(1,"#2b1710");
+  cx.fillStyle = g; cx.fillRect(0,0,w,sky);
+  ZONES.forEach((z,i) => { const top = y(z.d), bot = i < ZONES.length-1 ? y(ZONES[i+1].d) : bottom; if (top > bottom) return;
+    cx.fillStyle = z.col; cx.fillRect(0, top, w, Math.min(bot,bottom) - top); });
+  // cone
+  cx.fillStyle = "#1c1512";
+  for (const s of [-1,1]){ cx.beginPath(); cx.moveTo(cxm + s*w/2, sky+2); cx.lineTo(cxm + s*w/2, sky*0.95); cx.lineTo(cxm + s*28, sky*0.28); cx.lineTo(cxm + s*12, sky*0.34); cx.lineTo(cxm + s*12, sky+2); cx.closePath(); cx.fill(); }
+  // smoke
+  const tt = (performance.now()-t0)/1000;
+  if (!reduce) for (let i=0;i<3;i++){ const ph = (tt*0.25 + i/3)%1; cx.fillStyle = `rgba(185,166,152,${0.18*(1-ph)})`; cx.beginPath(); cx.arc(cxm + Math.sin(ph*6+i)*8, sky*0.3 - ph*sky*0.3, 5 + ph*10, 0, Math.PI*2); cx.fill(); }
+  // conduit
+  const cw = 14, top0 = sky*0.34;
+  cx.fillStyle = "rgba(0,0,0,.35)"; cx.beginPath(); cx.moveTo(cxm-cw+wob(top0), top0);
+  for (let yy=top0; yy<=bottom; yy+=6) cx.lineTo(cxm-cw+wob(yy),yy);
+  for (let yy=bottom; yy>=top0; yy-=6) cx.lineTo(cxm+cw+wob(yy),yy);
+  cx.closePath(); cx.fill();
+  // trail, colored by answer tier
+  let from = 0; cx.lineWidth = 4; cx.lineCap = "round";
+  for (const mk of marks){ const to = Math.min(from + mk.m, shownDepth); if (mk.m && to > from){
+      cx.strokeStyle = css("--t"+mk.tier); cx.beginPath(); cx.moveTo(cxm+wob(y(from)), y(from));
+      const steps = 24; for (let k=1;k<=steps;k++){ const yy = y(from + (to-from)*k/steps); cx.lineTo(cxm+wob(yy), yy); } cx.stroke(); }
+    from += mk.m; if (from >= shownDepth) break; }
+  // ticks
+  cx.font = "10px " + mono; cx.textAlign = "right"; cx.fillStyle = "rgba(243,231,220,.6)"; cx.strokeStyle = "rgba(243,231,220,.3)"; cx.lineWidth = 1;
+  const stepT = span <= 3000 ? 500 : 1000;
+  for (let d=stepT; d<=span; d+=stepT){ const yy = y(d); cx.beginPath(); cx.moveTo(w-6,yy); cx.lineTo(w,yy); cx.stroke(); cx.fillText(fmt(d)+" m", w-9, yy+3); }
+  // zone labels
+  cx.textAlign = "left"; cx.font = "600 10px " + mono; cx.fillStyle = "rgba(243,231,220,.8)";
+  ZONES.forEach(z => { const yy = y(z.d); if (z.d===0 || yy > bottom-12) return; cx.fillText(z.name.toUpperCase(), 8, yy+13); });
+  // diver glow
+  const yd = y(shownDepth), xd = cxm + wob(yd), pulse = reduce ? 0 : Math.sin(tt*4)*1.5;
+  const rg = cx.createRadialGradient(xd,yd,0,xd,yd,18+pulse); rg.addColorStop(0,"rgba(255,220,150,.9)"); rg.addColorStop(1,"rgba(255,106,43,0)");
+  cx.fillStyle = rg; cx.beginPath(); cx.arc(xd,yd,18+pulse,0,Math.PI*2); cx.fill();
+  cx.fillStyle = "#fff4e0"; cx.beginPath(); cx.arc(xd,yd,5,0,Math.PI*2); cx.fill();
 }
-function animateTo(){
-  cancelAnimationFrame(raf);
-  if (reduce){ shown = beads.length; drawChain(); return; }
-  const step = () => { shown = Math.min(beads.length, shown + Math.max(1, (beads.length-shown)/12)); drawChain(); if (shown < beads.length) raf = requestAnimationFrame(step); };
-  raf = requestAnimationFrame(step);
+function updateReadout(d){
+  $("#depthNum").textContent = fmt(d);
+  const z = zoneAt(d), n = ZONES.find(x => x.d > d);
+  $("#zoneName").textContent = z.name + " · " + z.temp;
+  $("#nextZone").textContent = n ? `Next: ${n.name} at ${fmt(n.d)} m` : "You reached the deepest zone.";
 }
-function setResidues(total){
-  $("#resCount").textContent = total;
-  const next = MILESTONES.find(m => m[0] > total);
-  const passed = [...MILESTONES].reverse().find(m => m[0] <= total);
-  $("#milestone").textContent = next ? (passed ? "Longer than " + passed[1] + ". " : "") + "Next: " + next[1] + " (" + next[0] + ")" : "Longer than serum albumin. Huge.";
+function loop(){
+  const diff = depth - shownDepth;
+  shownDepth = (reduce || Math.abs(diff) < 2) ? depth : shownDepth + diff*0.06;
+  updateReadout(shownDepth); draw();
+  requestAnimationFrame(loop);
 }
-addEventListener("resize", drawChain);
-matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", drawChain);
-new MutationObserver(drawChain).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+function setDepth(d, instant){ depth = d; if (instant || reduce) shownDepth = d; }
 
 // ---------- Game ----------
 const S = $("#screen");
 let game = null, timer = 0;
 
 function startScreen(){
-  const done = store.get("pep-" + dayKey);
+  const done = store.get("pepv-" + dayKey);
+  marks = []; setDepth(0, true);
   S.innerHTML = `
     <div class="eyebrow"><span>How to play</span><span>${ROUNDS} prompts · ${SECONDS}s each</span></div>
-    <h2>Build the longest peptide chain with answers nobody else thought of.</h2>
-    <p class="lede hint">Every correct answer adds amino-acid residues to your chain. Obvious answers add a few. Rare ones add a lot. Some answers look right but aren't peptides at all. Those add nothing.</p>
+    <h2>Dive into the volcano. Rare answers take you deeper.</h2>
+    <p class="lede hint">Each correct answer sinks you further toward the core. Answers everyone knows only drop you a little. The rare ones drop you a long way. Some answers look right but aren't peptides at all. Those leave you where you are.</p>
     <ul class="rules">
-      <li><b>Common</b>+${TIERS[1].res} residues</li><li><b>Uncommon</b>+${TIERS[2].res} residues</li>
-      <li><b>Rare</b>+${TIERS[3].res} residues</li><li><b>Deep cut</b>+${TIERS[4].res} residues</li>
+      <li><b>Common</b><i>+${TIERS[1].m} m</i></li><li><b>Uncommon</b><i>+${TIERS[2].m} m</i></li>
+      <li><b>Rare</b><i>+${TIERS[3].m} m</i></li><li><b>Deep cut</b><i>+${TIERS[4].m} m</i></li>
     </ul>
-    <p class="source">${live.on ? "Rarity updates from what other players answered today, once enough people have played." : "Rarity comes from the Pepillion answer key."}</p>
-    <div class="row">${done ? `<button class="primary" id="seeBtn">See today's result</button>` : `<button class="primary" id="goBtn">Play today's chain</button>`}<button id="freeBtn">Free play</button></div>`;
+    <p class="source">${live.on ? "Once enough people have played, depth depends on how rare your answer was today." : "Depth comes from the Pepillion answer key."} ${PROMPTS.length} categories and ${PROMPTS.reduce((s,p)=>s+p.a.length,0)} answers in the key.</p>
+    <div class="row">${done ? `<button class="primary" id="seeBtn">See today's dive</button>` : `<button class="primary" id="goBtn">Start today's dive</button>`}<button id="freeBtn">Free dive</button></div>`;
   $("#goBtn")?.addEventListener("click", () => begin(true));
   $("#seeBtn")?.addEventListener("click", () => endScreen(done, true));
   $("#freeBtn").addEventListener("click", () => begin(false));
-  beads = []; shown = 0; drawChain(); setResidues(0);
   ($("#goBtn")||$("#seeBtn")).focus({preventScroll:true});
 }
 
 function begin(daily){
   const seed = daily ? dayNum*7919 : (Math.random()*1e9)|0;
   game = { daily, prompts: pick(seed), i:0, total:0, log:[], answers:{} };
-  beads = []; shown = 0; setResidues(0); drawChain();
+  marks = []; setDepth(0, true);
   ask();
 }
 
@@ -372,10 +467,10 @@ function ask(){
     <div class="timer" aria-hidden="true"><i id="bar"></i></div>
     <div id="fbSlot"></div>`;
   const inp = $("#ans"); inp.focus({preventScroll:true});
-  const t0 = performance.now();
+  const start = performance.now();
   clearInterval(timer);
   timer = setInterval(() => {
-    const left = Math.max(0, SECONDS - (performance.now()-t0)/1000);
+    const left = Math.max(0, SECONDS - (performance.now()-start)/1000);
     $("#bar").style.transform = `scaleX(${left/SECONDS})`;
     $(".timer").classList.toggle("low", left < 5);
     $("#secs").textContent = Math.ceil(left) + "s";
@@ -387,33 +482,31 @@ function ask(){
 
 function resolve(p, raw, timedOut){
   clearInterval(timer);
-  const hit = match(p, raw);
-  const sc = score(p, hit);
-  game.total += sc.res;
+  const hit = match(p, raw), sc = score(p, hit);
+  game.total += sc.m;
   game.answers[p.id] = hit && hit.kind==="ok" ? hit.name : null;
-  game.log.push({q:p.q, input:raw.trim(), name: hit ? hit.name : null, kind: hit ? hit.kind : "miss", res:sc.res, tier:sc.tier});
-  for (let k=0;k<sc.res;k++) beads.push(sc.tier);
-  setResidues(game.total); animateTo();
+  game.log.push({q:p.q, input:raw.trim(), name: hit ? hit.name : null, kind: hit ? hit.kind : "miss", m:sc.m, tier:sc.tier});
+  marks.push({m:sc.m, tier:sc.tier}); setDepth(game.total);
 
   $("#f").querySelectorAll("input,button").forEach(el => el.disabled = true);
   let head, note = "";
   if (hit && hit.kind==="ok"){
-    head = `<strong>${esc(hit.name)}</strong><span class="chip c${sc.tier}">${TIERS[sc.tier].name}</span><span class="gain">+${sc.res}</span>`;
-    if (sc.share !== null) note = `${Math.round(sc.share*100)}% of today's players said this.`;
+    head = `<strong>${esc(hit.name)}</strong><span class="chip c${sc.tier}">${TIERS[sc.tier].name}</span><span class="gain">+${fmt(sc.m)} m</span>`;
+    if (sc.share !== null) note = `${Math.round(sc.share*100)}% of today's divers said this.`;
   } else if (hit && hit.kind==="trap"){
-    head = `<strong>${esc(hit.name)}</strong><span class="chip c0">Not quite</span><span class="gain">+0</span>`; note = hit.note;
+    head = `<strong>${esc(hit.name)}</strong><span class="chip c0">Not quite</span><span class="gain">+0 m</span>`; note = esc(hit.note);
   } else {
-    head = `<strong>${timedOut && !raw.trim() ? "Time's up" : raw.trim() ? "Not on the list" : "Skipped"}</strong><span class="gain">+0</span>`;
+    head = `<strong>${timedOut && !raw.trim() ? "Time's up" : raw.trim() ? "Not on the list" : "Skipped"}</strong><span class="gain">+0 m</span>`;
     if (raw.trim()) note = `"${esc(raw.trim())}" isn't in the answer key for this prompt.`;
   }
   const chosen = hit && hit.name;
-  const deep = p.a.filter(a => a[0]===4 && a[1]!==chosen).sort(() => Math.random()-.5).slice(0,2).map(a => `<b>${esc(a[1])}</b>`);
+  const deep = p.a.filter(a => a[0]===4 && a[1]!==chosen).sort(() => Math.random()-.5).slice(0,3).map(a => `<b>${esc(a[1])}</b>`);
   const last = game.i === ROUNDS-1;
   $("#fbSlot").innerHTML = `<div class="fb" role="status">
       <div class="verdict">${head}</div>
       ${note ? `<p class="note">${note}</p>` : ""}
       ${deep.length ? `<p class="cuts">Deep cuts you could have played: ${deep.join(", ")}</p>` : ""}
-      <div class="row"><button class="primary" id="nextBtn">${last ? "See my chain" : "Next prompt"}</button></div>
+      <div class="row"><button class="primary" id="nextBtn">${last ? "Surface and see my dive" : "Keep descending"}</button></div>
     </div>`;
   const nb = $("#nextBtn"); nb.focus({preventScroll:true});
   nb.addEventListener("click", () => { if (last) finish(); else { game.i++; ask(); } });
@@ -421,26 +514,25 @@ function resolve(p, raw, timedOut){
 
 function finish(){
   const result = { day:dayKey, num:dayNum, total:game.total, log:game.log, daily:game.daily };
-  if (game.daily){ store.set("pep-" + dayKey, result); saveLive(game.answers); }
+  if (game.daily){ store.set("pepv-" + dayKey, result); saveLive(game.answers); }
   endScreen(result, false);
 }
 
 function endScreen(r, replay){
-  if (replay){ beads = []; r.log.forEach(l => { for(let k=0;k<l.res;k++) beads.push(l.tier); }); shown = 0; setResidues(r.total); animateTo(); }
-  const passed = [...MILESTONES].reverse().find(m => m[0] <= r.total);
-  const next = MILESTONES.find(m => m[0] > r.total);
+  if (replay){ marks = r.log.map(l => ({m:l.m, tier:l.tier})); setDepth(0, true); setDepth(r.total); }
+  const z = zoneAt(r.total), n = ZONES.find(x => x.d > r.total);
   const hits = r.log.filter(l => l.kind==="ok").length;
-  const share = `Pepillion ${r.daily ? "#"+r.num : "free play"} · ${r.total} residues\n${r.log.map(l => TIERS[l.tier].emoji).join("")}\n${passed ? "Longer than " + passed[1] : "Still a tiny chain"}`;
+  const share = `Pepillion ${r.daily ? "#"+r.num : "free dive"} 🌋 ${fmt(r.total)} m\n${r.log.map(l => TIERS[l.tier].emoji).join("")}\nReached the ${z.name} (${z.temp})`;
   S.innerHTML = `
-    <div class="eyebrow"><span>${r.daily ? "Daily #" + r.num + " complete" : "Free play complete"}</span><span>${hits}/${r.log.length} correct</span></div>
-    <h2>${r.total} residues. ${passed ? `Longer than ${esc(passed[1])} (${passed[0]}).` : "Not even a tripeptide yet."}</h2>
-    <p class="hint">${next ? `${next[0]-r.total} more residues and you'd have out-built ${esc(next[1])}.` : "You out-built serum albumin. That's 585 residues."}</p>
+    <div class="eyebrow"><span>${r.daily ? "Daily #" + r.num + " complete" : "Free dive complete"}</span><span>${hits}/${r.log.length} correct</span></div>
+    <h2>${fmt(r.total)} m. You reached the ${esc(z.name)}.</h2>
+    <p class="hint">${n ? `${fmt(n.d - r.total)} m more and you'd have hit the ${esc(n.name)}.` : "Nobody gets deeper than the Core Forge."}</p>
     <ul class="recap">${r.log.map(l => `<li><span class="q">${esc(l.q)}</span>
       <span class="a">${l.name ? esc(l.name) : (l.input ? `<s>${esc(l.input)}</s>` : "—")} <span class="chip c${l.tier}">${l.kind==="trap" ? "Not quite" : TIERS[l.tier].name}</span></span>
-      <span class="r">+${l.res}</span></li>`).join("")}</ul>
+      <span class="r">+${fmt(l.m)} m</span></li>`).join("")}</ul>
     <pre class="share" id="shareTxt">${esc(share)}</pre>
-    <div class="row"><button class="primary" id="copyBtn">Copy result</button><button id="freeBtn">Free play</button><button id="homeBtn">How to play</button></div>
-    ${r.daily ? `<p class="source">A new chain unlocks tomorrow (UTC).</p>` : ""}`;
+    <div class="row"><button class="primary" id="copyBtn">Copy result</button><button id="freeBtn">Free dive</button><button id="homeBtn">How to play</button></div>
+    ${r.daily ? `<p class="source">A new dive opens tomorrow (UTC).</p>` : ""}`;
   $("#copyBtn").addEventListener("click", e => {
     const b = e.currentTarget;
     navigator.clipboard.writeText(share).then(() => { b.textContent = "Copied"; }, () => {
@@ -452,5 +544,6 @@ function endScreen(r, replay){
 }
 
 startScreen();
+loop();
 initLive();
 </script>
